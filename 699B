@@ -1,0 +1,60 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector<int> tab;
+int gcd(int a, int b)
+{
+    if (b == 0)
+    {
+        return a;
+    }
+    return gcd(b, a % b);
+}
+
+int main()
+{
+    int t;
+    scanf("%d", &t);
+    for (int z = 0; z < t; z++)
+    {
+        tab.clear();
+        int n; 
+        scanf("%d", &n);
+        for (int i = 0; i < n; i++)
+        {
+            int temp;
+            scanf("%d", &temp);
+            tab.push_back(temp);
+        }
+        sort(tab.rbegin(), tab.rend());
+
+        int current_gdc = tab[0];
+
+        for (int i = 1; i < n; i++)
+        {
+            int max_gdc = 0, max_gdc_index;
+            for (int j = i; j < n; j++)
+            {
+                int new_gdc = gcd(current_gdc, tab[j]);
+                if (new_gdc > max_gdc || j==i)
+                {
+                    max_gdc = new_gdc;
+                    max_gdc_index = j;
+                }
+            }
+            current_gdc = max_gdc;
+            swap(tab[i], tab[max_gdc_index]);
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            printf("%d ", tab[i]);
+        }
+        printf("\n");
+
+    }
+}
